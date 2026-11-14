@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.3.3 — 2026-11-14
+- Punkt skupu v1.1.0: cennik z oponami (0,30 zł/kg).
+
 ## 0.3.2 — 2026-11-14
 - Linia odlewnicza v1.1.0: drugi przenośnik z 10 mniejszymi formami na aluminium (podziałka 0,36 m), rozdzielacz na końcu rynny z dwiema dyszami i zasuwą, dźwignia na słupku.
 
