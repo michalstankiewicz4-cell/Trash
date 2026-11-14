@@ -1,5 +1,9 @@
 # Zmiany
 
+## 0.2.5 — 2026-11-14
+- Model: linia odlewnicza (v1.0.0) — rynna spustowa z wyłożeniem ogniotrwałym, przenośnik 4,6 m z rolkami i napędem, 8 żeliwnych form z wnęką na sztabkę.
+- Model: sztabka (v1.0.0) — ostrosłup ścięty 400×120/360×90×80 mm (~3,2 l) z zaokrąglonymi krawędziami i skurczem na górze; warianty aluminium, stal, mieszanka.
+
 ## 0.2.4 — 2026-11-14
 - Model: piec indukcyjny z cewką (v1.0.0) — przechylny tygiel z wymurówką (~365 l), odsłonięta cewka miedziana 11 zwojów w klatce, wylew, czopy na stojakach z łożyskami, siłownik przechyłu, szafa zasilania z miernikami, szyny prądowe, węże chłodzenia, pulpit, podest ze schodami.
 
