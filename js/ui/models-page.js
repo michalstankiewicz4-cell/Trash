@@ -48,11 +48,14 @@ async function show(e) {
   document.querySelectorAll('#items button').forEach((b) => b.classList.toggle('on', b.dataset.id === e.id));
   history.replaceState(null, '', '?model=' + e.id);
   mod = await e.load();
+  const n = mod.info?.variants || 1, sel = $('variant');
+  sel.innerHTML = Array.from({ length: n }, (_, i) => `<option value="${i}">wariant ${i + 1}</option>`).join('');
+  sel.parentElement.style.display = n > 1 ? '' : 'none';
   rebuild(true);
 }
 function rebuild(reframe) {
   holder.clear();
-  current = mod.build($('lod1').checked ? 1 : 0);
+  current = mod.build($('lod1').checked ? 1 : 0, +($('variant').value || 0));
   applyTextures();
   // przedmiot stoi na podłodze (dolna krawędź na y = 0)
   const b = new THREE.Box3().setFromObject(current);
@@ -101,6 +104,7 @@ for (const [g, list] of Object.entries(groups)) {
   }
 }
 $('lod1').onchange = () => rebuild(false);
+$('variant').onchange = () => rebuild(false);
 $('wire').onchange = () => current.traverse((o) => { if (o.isMesh) o.material.wireframe = $('wire').checked; });
 $('coll').onchange = () => { collGroup.visible = $('coll').checked; };
 
