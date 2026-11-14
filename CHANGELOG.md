@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.2.3 — 2026-11-14
+- Model: zgniatarka do metalu — prasa pionowa 400 kN (v1.0.0): komora 3×1,4×2 m z żebrami i podnoszoną bramą, 4 kolumny, poprzecznica, 2 siłowniki Ø300 na poprzecznicy (skok 3,5 m), płyta dociskowa z żebrami i pasami, agregat z chłodnicą, przewody, pulpit, podest ze schodami.
+
 ## 0.2.2 — 2026-11-14
 - Model: zgniatarka do puszek (v1.0.0) — lej zasypowy, komora 1,6×1×1 m, poziomy tłok z siłownikiem Ø125, zasuwa wylotowa, zsyp do kosza z siatki, agregat hydrauliczny z przewodami, szafka z przyciskami START/STOP i grzybkiem, podest ze schodkami.
 
