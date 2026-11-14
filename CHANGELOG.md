@@ -1,5 +1,9 @@
 # Zmiany
 
+## 0.1.5 — 2026-11-14
+- Model: garnek nierdzewny 6 l (v1.0.0) — ścianka 1,1 mm z zawiniętym brzegiem, dno kapsułowe, 2 uchwyty pałąkowe na płytkach z nitami (łby też w środku); zderzacz naczynia z uchwytami.
+- Tekstura metalu szczotkowanego; jaśniejszy grunt w odbiciach.
+
 ## 0.1.4 — 2026-11-14
 - Model: puszka zgnieciona (v1.0.0) — puszka 0,33 l sprasowana do ~41 mm: fałdy w romby (4 płaty, przesunięte co fałdę), przekrzywione wieczko, zachowany nadruk; 3 warianty.
 

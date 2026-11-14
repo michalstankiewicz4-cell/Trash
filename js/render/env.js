@@ -12,7 +12,7 @@ export function createEnvironment(renderer, { sunDir = new THREE.Vector3(0.5, 0.
       void main(){
         float h = vD.y;
         vec3 sky = mix(vec3(0.62,0.70,0.80), vec3(0.28,0.42,0.65), smoothstep(0.0,0.7,h));
-        vec3 ground = mix(vec3(0.22,0.19,0.16), vec3(0.10,0.09,0.08), smoothstep(0.0,-0.6,h));
+        vec3 ground = mix(vec3(0.36,0.33,0.29), vec3(0.18,0.16,0.14), smoothstep(0.0,-0.6,h));
         vec3 c = h > 0.0 ? sky : ground;
         c = mix(c, vec3(0.75,0.72,0.66), exp(-abs(h)*14.0)*0.6);   // jasny horyzont
         float sd = max(dot(vD, sun), 0.0);
