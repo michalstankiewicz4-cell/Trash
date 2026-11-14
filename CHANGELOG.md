@@ -1,5 +1,9 @@
 # Zmiany
 
+## 0.3.1 — 2026-11-14
+- Model: mała sztabka aluminiowa (v1.0.0) — 250×80/220×60×50 mm (~0,82 l ≈ 2,2 kg), z osobnych mniejszych form.
+- Sztabka v1.0.1: generator kształtu z wymiarami jako parametrem (promień zaokrąglenia i skurcz zależne od wymiarów).
+
 ## 0.3.0 — 2026-11-14
 - Gra: widok z oczu, wysypisko ogrodzone (nie da się wyjść), platforma z maszynami, punkt skupu przy bramie, pojazd z chwytakiem.
 - Fizyka Rapier (WASM, stały krok 60 Hz): przedmioty z masą i hitboxami (opona = pierścień z płaskimi bokami), podnoszenie, rzut, popychanie.
