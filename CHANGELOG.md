@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.3.2 — 2026-11-14
+- Linia odlewnicza v1.1.0: drugi przenośnik z 10 mniejszymi formami na aluminium (podziałka 0,36 m), rozdzielacz na końcu rynny z dwiema dyszami i zasuwą, dźwignia na słupku.
+
 ## 0.3.1 — 2026-11-14
 - Model: mała sztabka aluminiowa (v1.0.0) — 250×80/220×60×50 mm (~0,82 l ≈ 2,2 kg), z osobnych mniejszych form.
 - Sztabka v1.0.1: generator kształtu z wymiarami jako parametrem (promień zaokrąglenia i skurcz zależne od wymiarów).
