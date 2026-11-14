@@ -24,7 +24,7 @@ def main():
                 for name, (x, y, z, k) in VIEWS.items():
                     pg.evaluate(f"()=>{{window.__models.holder.rotation.y=0; window.__models.view({x},{y},{z},{k})}}")
                     time.sleep(1.2)
-                    pg.screenshot(path=os.path.join(OUT, f'{mid}-{name}.png'))
+                    pg.screenshot(path=os.path.join(OUT, f'{mid}-{name}.png'), timeout=180000)
             b.close()
     finally: srv.kill()
     if errs: print('BŁĘDY STRONY:\n  ' + '\n  '.join(errs[:20])); sys.exit(1)

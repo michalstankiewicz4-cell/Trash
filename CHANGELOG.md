@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.1.6 — 2026-11-14
+- Model: gazety związane sznurkiem (v1.0.0) — 30 warstw przesuniętych i skręconych, krawędzie kartek z wkładkami, pierwsza strona na wierzchu, sznurek jutowy na krzyż z supłem i końcami.
+
 ## 0.1.5 — 2026-11-14
 - Model: garnek nierdzewny 6 l (v1.0.0) — ścianka 1,1 mm z zawiniętym brzegiem, dno kapsułowe, 2 uchwyty pałąkowe na płytkach z nitami (łby też w środku); zderzacz naczynia z uchwytami.
 - Tekstura metalu szczotkowanego; jaśniejszy grunt w odbiciach.
