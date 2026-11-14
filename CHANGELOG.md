@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.2.1 — 2026-11-14
+- Model: piec na papier i drewno (v1.0.0) — skrzynia stalowa z wykładziną szamotową, otwór wsadowy z otwartymi drzwiami i pochyłą tacą, ruszt z żarem, popielnik, komin 6 m z daszkiem, żaluzje, termometr, nity; strefa spalania i zderzacze.
+
 ## 0.2.0 — 2026-11-14
 - Model: platforma (v1.0.0) — podest 26×18 m z płytami 2×2 m (każda osiadła inaczej), krawężnik i pas w pasy ostrzegawcze, rampa z blachy ryflowanej, 4 maszty kratowe 9 m z naświetlaczami; zderzacze statyczne.
 - Materiały PBR z MatKit (GameLaboratory, kopia w js/render/matkit.js): beton, blachy, farby, grunt; UV w metrach (uvMeters).
