@@ -1,5 +1,14 @@
 # Zmiany
 
+## 0.4.0 — 2026-11-14
+- Małe formy na aluminium: drugi przenośnik z 10 formami, rozdzielacz przełączany dźwignią (E), metal czeka w dyszy podczas przesuwu przenośnika (mniej strat); wolniejszy wylew.
+- Skup opon: 0,30 zł/kg (całe lub zgniecione), sprzedaż razem ze sztabkami.
+- Uginanie się wysięgnika i ramienia pod ciężarem trzymanego ładunku (sprężyście, z bujaniem), wygięcie widoczne; ciężar chwytaka i ładunku przechyla pojazd; ładunek i ugięcie w statusie.
+- Pojazd: przezroczyste szyby kabiny, kamera z kabiny patrzy do przodu, zmiana kamery C (kabina / za pojazdem / chwytak).
+- Stos mieszany: po 20 sztuk z każdego rodzaju (180 przedmiotów).
+- Pojazd v1.0.2: ramię w pozycji początkowej wyżej (chwytak nad ziemią); szkło przezroczyste (pojazd v1.0.1, punkt skupu v1.1.1).
+- Testy: szybkie wykrywanie błędów przy ładowaniu.
+
 ## 0.3.4 — 2026-11-14
 - Poprawka: przeskoki widoku przy obracaniu myszą (błąd Chrome z blokadą kursora) — surowy ruch myszy (unadjustedMovement) i odrzucanie fałszywych skoków.
 

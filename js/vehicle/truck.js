@@ -18,7 +18,9 @@ export class Truck {
     this.chassisG = model.getObjectByName('podwozie'); this.upperG = model.getObjectByName('nadwozie');
     this.boomG = model.getObjectByName('wysięgnik'); this.stickG = model.getObjectByName('ramię');
     this.grabG = model.getObjectByName('chwytak'); this.wheelsG = [0, 1, 2, 3].map((i) => model.getObjectByName('koło ' + i));
-    this.slew = 0; this.boom = 0.55; this.stick = 1.75; this.closed = false; this.steer = 0;
+    this.slew = 0; this.boom = 0.55; this.stick = 1.35; this.closed = false; this.steer = 0;
+    // ugięcie pod ciężarem: kąty ugięcia wysięgnika i ramienia (rad) z prędkościami (układ sprężysty z tłumieniem)
+    this.sagB = 0; this.vB = 0; this.sagS = 0; this.vS = 0; this.payload = 0; this.items = null; this.loadT = 0; this.heldItems = [];
     // podwozie
     this.body = W.createRigidBody(R.RigidBodyDesc.dynamic().setTranslation(...pos).setRotation(q).setLinearDamping(0.1).setAngularDamping(0.6).setCanSleep(false));
     const c = LAYOUT.chassis;
@@ -64,6 +66,10 @@ export class Truck {
       return { g: j, b, joint, sign: 1 };
     });
     this.eyeLocal = new THREE.Vector3(...LAYOUT.eye).sub(new THREE.Vector3(...LAYOUT.slew));
+    // widoczne ugięcie: wysięgnik i ramię wyginają się w łuk (shader, końce na swoim miejscu)
+    const meshOf = (g, n) => g.children.find((c) => c.isMesh && c.name === n);   // część o tej samej nazwie co grupa
+    this.bowB = bowMaterial(meshOf(this.boomG, 'wysięgnik'), LAYOUT.boomLen);
+    this.bowS = bowMaterial(meshOf(this.stickG, 'ramię'), LAYOUT.stickLen);
     this.setJaws(false);
   }
   setJaws(closed) {
@@ -72,8 +78,9 @@ export class Truck {
     for (const j of this.jaws) j.joint.configureMotorPosition(closed ? LAYOUT.jawClosed : LAYOUT.jawOpen, closed ? 60000 : 12000, closed ? 3000 : 1200);
   }
   poseArm(now = false) {
-    // grupy modelu (dzieci podwozia — wizualnie) i ciała kinematyczne (świat)
-    this.upperG.rotation.y = this.slew; this.boomG.rotation.x = -this.boom; this.stickG.rotation.x = this.stick;
+    // grupy modelu (dzieci podwozia — wizualnie) i ciała kinematyczne (świat); ugięcie obniża wysięgnik i ramię
+    this.upperG.rotation.y = this.slew; this.boomG.rotation.x = -(this.boom - this.sagB); this.stickG.rotation.x = this.stick + this.sagS;
+    if (this.bowB) { this.bowB.value = this.sagB * LAYOUT.boomLen * 0.35; this.bowS.value = this.sagS * LAYOUT.stickLen * 0.35; }
     this.model.updateMatrixWorld(true);
     for (const [g, b] of [[this.upperG, this.upperB], [this.boomG, this.boomB], [this.stickG, this.stickB]]) {
       const p = new THREE.Vector3(), q = new THREE.Quaternion(); g.matrixWorld.decompose(p, q, new THREE.Vector3());
@@ -97,7 +104,44 @@ export class Truck {
     if (!eng && !brake) brake = 40;
     for (let i = 0; i < 4; i++) { this.vc.setWheelEngineForce(i, eng / 4); this.vc.setWheelBrake(i, brake); this.vc.setWheelSteering(i, i < 2 ? this.steer : 0); }
     this.vc.updateVehicle(dt);
+    this.deflect(dt);
     this.poseArm();
+  }
+  /**
+   * Ugięcie wysięgnika i ramienia pod ciężarem: ładunek = przedmioty trzymane w szczękach (dotykają szczęki i wiszą
+   * w powietrzu). Moment od ładunku (ramię siły = odległość w poziomie od sworznia) × podatność daje kąt ugięcia;
+   * kąt dochodzi do niego jak sprężyna z tłumieniem (ramię lekko się buja przy podniesieniu i upuszczeniu).
+   * Ciężar chwytaka i ładunku działa też na podwozie (siła w końcu ramienia) — maszyna przechyla się z ciężarem.
+   */
+  deflect(dt) {
+    if (this.items && (this.loadT -= dt) <= 0) { this.loadT = 0.1; this.measure(); }
+    const g = 9.81, F = this.payload * g;
+    this.boomG.updateMatrixWorld(true); this.stickG.updateMatrixWorld(true);
+    const pb = new THREE.Vector3().setFromMatrixPosition(this.boomG.matrixWorld), ps = new THREE.Vector3().setFromMatrixPosition(this.stickG.matrixWorld);
+    const tip = new THREE.Vector3(0, 0, LAYOUT.stickLen).applyMatrix4(this.stickG.matrixWorld);
+    const fwd = new THREE.Vector3(0, 0, 1).applyQuaternion(this.upperQuat()); fwd.y = 0; fwd.normalize();
+    const rb = tip.clone().sub(pb).dot(fwd), rs = tip.clone().sub(ps).dot(fwd);   // ramiona siły (w poziomie, do przodu +)
+    const CB = 2.6e-7, CS = 3.5e-7;                                                // podatność [rad / (N·m)]
+    const tb = F * rb * CB, ts = F * rs * CS, w = 2 * Math.PI * 1.6, z = 0.12;
+    this.vB += (w * w * (tb - this.sagB) - 2 * z * w * this.vB) * dt; this.sagB += this.vB * dt;
+    this.vS += (w * w * (ts - this.sagS) - 2 * z * w * this.vS) * dt; this.sagS += this.vS * dt;
+    // ciężar chwytaka (~700 kg) i ładunku na podwoziu — w punkcie zawieszenia chwytaka
+    this.body.resetForces(true);
+    this.body.addForceAtPoint({ x: 0, y: -(700 + this.payload) * g, z: 0 }, tip, true);
+  }
+  /** Przedmioty w szczękach: dotykają szczęki lub głowicy i nie leżą na niczym poniżej (promień w dół). */
+  measure() {
+    const W = this.ph.world, mine = new Set([this.grabB.handle, ...this.jaws.map((j) => j.b.handle)]), found = new Set();
+    const cols = [];
+    for (const b of [this.grabB, ...this.jaws.map((j) => j.b)]) for (let i = 0; i < b.numColliders(); i++) cols.push(b.collider(i));
+    for (const c of cols) W.contactPairsWith(c, (o) => { const it = this.items.fromCollider(o); if (it) found.add(it); });
+    let m = 0; this.heldItems = [];
+    for (const it of found) {
+      const t = it.body.translation(), h = this.items.halfExtents(it), down = Math.max(...h) + 0.12;
+      const hit = W.castRay(new R.Ray(t, { x: 0, y: -1, z: 0 }), down, true, undefined, undefined, undefined, it.body, (c) => !mine.has(c.parent()?.handle) && !found.has(this.items.fromCollider(c)));
+      if (!hit && this.closed) { m += it.mass; this.heldItems.push(it); }
+    }
+    this.payload = m;
   }
   /** Po kroku fizyki: grupy modelu z ciał (podwozie, koła, chwytak, szczęki). */
   sync() {
@@ -113,8 +157,23 @@ export class Truck {
     this.poseArm();
   }
   eyeWorld() { this.upperG.updateMatrixWorld(true); return this.eyeLocal.clone().applyMatrix4(this.upperG.matrixWorld); }
+  upperCenter() { this.upperG.updateMatrixWorld(true); return new THREE.Vector3(0, 1.2, 1.5).applyMatrix4(this.upperG.matrixWorld); }
+  grabCenter() { const p = this.grabB.translation(); return new THREE.Vector3(p.x, p.y - LAYOUT.grappleHang - 0.4, p.z); }
   cabWorld() { return this.eyeWorld().add(new THREE.Vector3(0, -2.2, 0)); }
   upperQuat() { return new THREE.Quaternion().setFromRotationMatrix(this.upperG.matrixWorld); }
+}
+
+/** Kopia materiału części z wygięciem w łuk wzdłuż osi z (0…L): przesunięcie w dół 4·u·(1−u)·uBow. */
+function bowMaterial(mesh, L) {
+  const u = { value: 0 }, m = mesh.material.clone();
+  m.onBeforeCompile = (sh) => {
+    sh.uniforms.uBow = u; sh.uniforms.uLen = { value: L };
+    sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nuniform float uBow; uniform float uLen;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nfloat bu = clamp(transformed.z / uLen, 0.0, 1.0); transformed.y -= 4.0 * bu * (1.0 - bu) * uBow;');
+  };
+  m.customProgramCacheKey = () => 'bow-' + L;
+  mesh.material = m;
+  return u;
 }
 
 /** Zderzacze szczęki: 3 bryły wypukłe wzdłuż łuku (jak w modelu: jawGeometry). */

@@ -29,7 +29,10 @@ def main():
             pg.on('pageerror', lambda e: errs.append('pageerror ' + str(e)))
             pg.on('console', lambda m: errs.append(m.type + ' ' + m.text) if m.type == 'error' else None)
             pg.goto(f'http://localhost:{PORT}/index.html?test')
-            pg.wait_for_function('window.__game && window.__game.ready', timeout=600000)
+            for _ in range(900):
+                if pg.evaluate('!!(window.__game && window.__game.ready)'): break
+                if errs: print('BŁĄD:', errs); b.close(); return
+                time.sleep(1)
             ids = pg.evaluate(JS_SETUP); time.sleep(4)
             pg.evaluate("(()=>{const g=window.__game; g.canCrusher.start(); g.metalCrusher.start(); g.induction.power=true; g.player.body.setTranslation({x:-3,y:1.6,z:-1.5},true); g.player.yaw=0; g.player.pitch=-0.2;})()")
             for t in range(8):

@@ -1,6 +1,7 @@
 // Punkt skupu: przedmioty na wadze są ważone (wyświetlacz pokazuje masę i wartość sztabek), przy okienku E — sprzedaż
 // sztabek z wagi. Cennik (zł/kg) jak na tablicy w modelu.
 import * as THREE from '../../vendor/three/three.module.js';
+import { KINDS } from '../items/catalog.js';
 
 export const PRICES = [6.2, 1.1, 0.9];      // aluminium, stal, mieszanka
 export class Buyback {
@@ -24,7 +25,8 @@ export class Buyback {
     }
     return out;
   }
-  value(list) { return list.reduce((s, it) => s + (it.kind === 'ingot' ? it.mass * PRICES[it.variant] : 0), 0); }
+  price(it) { const k = KINDS[it.kind]; return k.ingot ? PRICES[it.variant] : k.sell || 0; }
+  value(list) { return list.reduce((s, it) => s + it.mass * this.price(it), 0); }
   step() {
     this.onScale = this.scan();
     const kg = this.onScale.reduce((s, it) => s + it.mass, 0), zl = this.value(this.onScale);
@@ -38,8 +40,8 @@ export class Buyback {
     this.tex.needsUpdate = true;
   }
   sell() {
-    const list = this.onScale.filter((it) => it.kind === 'ingot');
-    if (!list.length) return this.onScale.length ? 'Skup przyjmuje tylko sztabki z przetopu' : 'Połóż sztabki na wadze';
+    const list = this.onScale.filter((it) => this.price(it) > 0);
+    if (!list.length) return this.onScale.length ? 'Skup przyjmuje sztabki z przetopu i opony' : 'Połóż sztabki lub opony na wadze';
     const zl = this.value(list); list.forEach((it) => this.items.remove(it)); this.money += zl;
     return `Sprzedano ${list.length} szt. za ${zl.toFixed(2)} zł`;
   }

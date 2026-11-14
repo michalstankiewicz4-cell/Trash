@@ -18,8 +18,9 @@ import { MetalFlow } from './machines/metal-flow.js';
 import { Casting } from './machines/casting.js';
 import { Buyback } from './machines/buyback.js';
 import { Truck } from './vehicle/truck.js';
-import { build as buildTruck } from './models/vehicle/grapple-truck.js';
+import { build as buildTruck, LAYOUT as LAYOUT_T } from './models/vehicle/grapple-truck.js';
 import { HitboxView } from './render/hitboxes.js';
+import { INGOT_SMALL } from './models/items/ingot-small.js';
 
 const $ = (id) => document.getElementById(id);
 const fmtZl = (v) => v.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' zł';
@@ -36,7 +37,7 @@ async function main() {
   applyTextures();
   const items = new Items(ph);
   await progress(0.4, 'Przedmioty…');
-  const view = new ItemRenderer(scene, (kind) => (kind === 'ingot' ? 64 : kind.startsWith('can') ? 160 : 60));
+  const view = new ItemRenderer(scene, (kind) => (kind.startsWith('ingot') ? 64 : kind.startsWith('can') ? 160 : 60));
   const mixed = spawnStacks(items);
   await progress(0.5, 'Maszyny…');
   const L = yard.layouts;
@@ -46,14 +47,19 @@ async function main() {
   const flow = new MetalFlow(scene, yard.casting, L.casting);
   const induction = new InductionFurnace(ph, items, yard.induction, L.induction, yard.crucibleColliders);
   const casting = new Casting(scene, items, yard.casting, L.casting, flow);
+  const castingSmall = new Casting(scene, items, yard.casting, L.casting, flow, { group: 'formy małe', dims: INGOT_SMALL, pitch: L.casting.pitch2, moldZ: L.casting.moldZ2, kind: 'ingot-small' });
+  const gate = yard.casting.getObjectByName('zasuwa rozdzielacza'), lever = yard.casting.getObjectByName('dźwignia');
+  const setDiverter = (small) => { flow.small = small; gate.position.z = small ? L.casting.moldZ : L.casting.moldZ2; lever.rotation.x = small ? 0.5 : -0.5; };
+  setDiverter(false);
   const shop = new Buyback(items, yard.buyback, L.buyback);
   const truck = new Truck(ph, scene, buildTruck(0), PLACES.truck.pos, PLACES.truck.rotY);
+  truck.items = items;
   applyTextures();
   // stosy układają się: zrzucanie stosu mieszanego po jednym i kilka sekund symulacji przed startem
   for (let i = 0; i < mixed.length; i++) {
     const m = mixed[i]; items.spawn(m.kind, m.variant, m.pos, m.q);
-    for (let k = 0; k < 7; k++) ph.step();
-    if (i % 10 === 0) await progress(0.55 + 0.4 * i / mixed.length, `Układanie stosów… ${i}/${mixed.length}`);
+    for (let k = 0; k < 6; k++) ph.step();
+    if (i % 15 === 0) await progress(0.55 + 0.4 * i / mixed.length, `Układanie stosów… ${i}/${mixed.length}`);
   }
   for (let k = 0; k < 180; k++) ph.step();
   await progress(1, 'Gotowe');
@@ -62,7 +68,8 @@ async function main() {
   const player = new Player(ph, items, camera, PLACES.player);
   const hit = new HitboxView(scene, ph);
   const TEST = new URLSearchParams(location.search).has('test');   // tryb testu (tools/game-test.py): bez menu i blokady myszy
-  let driving = false, menuOpen = !TEST;
+  let driving = false, menuOpen = !TEST, camMode = 0;   // kamera w pojeździe: 0 — kabina, 1 — za pojazdem, 2 — na chwytak
+  const CAMS = ['kabina', 'za pojazdem', 'chwytak'];
   if (TEST) $('menu').classList.add('off');
   $('play').disabled = false;
   $('play').onclick = () => { input.lock(); };
@@ -76,7 +83,8 @@ async function main() {
     { at: W(yard.canCrusher, L.canCrusher.button), label: () => `E — zgniatarka do puszek: ${canCrusher.busy ? 'stop' : 'start'} (${canCrusher.status()})`, act: () => (canCrusher.busy ? canCrusher.stop() : canCrusher.start()) },
     { at: W(yard.metalCrusher, L.metalCrusher.button), label: () => `E — prasa 400 kN: ${metalCrusher.busy ? 'stop' : 'start'} (${metalCrusher.status()})`, act: () => (metalCrusher.busy ? metalCrusher.stop() : metalCrusher.start()) },
     { at: W(yard.induction, L.induction.panel), label: () => `E — piec indukcyjny: ${induction.power ? 'wyłącz' : 'włącz'} · R/F przechył`, act: () => { induction.power = !induction.power; }, induction: true },
-    { at: W(yard.buyback, L.buyback.window), label: () => `E — sprzedaj sztabki z wagi (${fmtZl(shop.value(shop.onScale))})`, act: () => player.say(shop.sell()) },
+    { at: W(yard.buyback, L.buyback.window), label: () => `E — sprzedaj sztabki i opony z wagi (${fmtZl(shop.value(shop.onScale))})`, act: () => player.say(shop.sell()) },
+    { at: W(yard.casting, L.casting.lever), label: () => `E — rozdzielacz: ${flow.small ? 'małe formy (aluminium)' : 'duże formy'} → przełącz`, act: () => setDiverter(!flow.small) },
     { at: null, label: () => 'E — wsiądź do pojazdu', act: () => { driving = true; player.drop(); player.active = false; }, truck: true },
   ];
   const near = () => {
@@ -96,7 +104,8 @@ async function main() {
     canCrusher.step(STEP); metalCrusher.step(STEP);
     induction.step(STEP, input, !!(n && n.induction), flow);
     ph.step();
-    flow.step(STEP); casting.step(STEP); furnace.step(STEP);
+    flow.blocked = !!(flow.small ? castingSmall.anim : casting.anim);
+    flow.step(STEP); casting.step(STEP); castingSmall.step(STEP); furnace.step(STEP);
     input.hit.delete('Space'); input.click = [false, false, false];
   }
   let acc = 0, last = performance.now(), fpsT = 0, frames = 0;
@@ -105,22 +114,32 @@ async function main() {
     frames++; fpsT += dt; if (fpsT > 0.5) { $('fps').textContent = (frames / fpsT).toFixed(0); frames = 0; fpsT = 0; }
     if (!menuOpen) {
       if (input.pressed('KeyH')) { hit.enabled = !hit.enabled; $('hitbox').checked = hit.enabled; }
+      if (driving && input.pressed('KeyC')) { camMode = (camMode + 1) % 3; player.say('Kamera: ' + CAMS[camMode]); if (camMode) { player.yaw = 0.6; player.pitch = -0.35; } else { player.yaw = 0; player.pitch = -0.1; } }
       player.look(input);
       const n = near();
       if (input.pressed('KeyE')) {
-        if (driving) { driving = false; player.active = true; const c = truck.cabWorld(); player.body.setTranslation({ x: c.x - 1.6, y: 1.2, z: c.z }, true); }
+        if (driving) { driving = false; camMode = 0; player.active = true; const c = truck.cabWorld(); player.body.setTranslation({ x: c.x - 1.6, y: 1.2, z: c.z }, true); }
         else if (n) n.act();
       }
       acc += dt;
       while (acc >= STEP) { acc -= STEP; tick(n); }
       truck.sync();
       shop.step();
-      $('prompt').textContent = n ? n.label() : driving ? 'W/S jazda · A/D skręt · ←/→ obrót · ↑/↓ wysięgnik · R/F ramię · Spacja chwytak · E wyjście' : '';
+      $('prompt').textContent = n ? n.label() : driving ? `W/S jazda · A/D skręt · ←/→ obrót · ↑/↓ wysięgnik · R/F ramię · Spacja chwytak · C kamera (${CAMS[camMode]}) · E wyjście` : '';
     }
-    if (driving) {
+    if (driving && camMode === 0) {
       camera.position.copy(truck.eyeWorld());
-      const q = truck.upperQuat(); const e = new THREE.Euler(player.pitch, player.yaw, 0, 'YXZ');
+      const q = truck.upperQuat(); const e = new THREE.Euler(player.pitch, player.yaw + Math.PI, 0, 'YXZ');   // przód nadwozia = +z
       camera.quaternion.copy(q).multiply(new THREE.Quaternion().setFromEuler(e));
+    } else if (driving) {
+      // kamera zewnętrzna: orbita wokół celu (nadwozie albo chwytak), obracana myszą, kierunek względem nadwozia
+      const target = camMode === 1 ? truck.upperCenter() : truck.grabCenter(), dist = camMode === 1 ? 14 : 5.5;
+      const q = truck.upperQuat(), yaw0 = new THREE.Euler().setFromQuaternion(q, 'YXZ').y;
+      const pitch = Math.max(-1.3, Math.min(0.2, player.pitch)); player.pitch = pitch;
+      const dir = new THREE.Vector3(0, 0, 1).applyEuler(new THREE.Euler(-pitch, yaw0 + player.yaw + Math.PI, 0, 'YXZ'));   // pitch < 0 — kamera nad celem
+      camera.position.copy(target).addScaledVector(dir, -dist);
+      if (camera.position.y < target.y - 2 || camera.position.y < 0.4) camera.position.y = Math.max(0.4, camera.position.y);
+      camera.lookAt(target);
     } else player.updateCamera();
     followShadow(camera.position);
     LIQUID_TIME.value += dt;
@@ -131,12 +150,13 @@ async function main() {
     const m = induction.melt;
     $('status').textContent = `Piec indukcyjny: ${induction.power ? 'ZAŁ' : 'wył'} · kąpiel ${(m.volume * 1000).toFixed(1)} l (Al ${m.mass.aluminium.toFixed(1)} kg, stal ${m.mass.steel.toFixed(1)} kg) · przechył ${(induction.tilt * 57.3).toFixed(0)}°\n`
       + `Zgniatarka puszek: ${canCrusher.status()} · Prasa: ${metalCrusher.status()} · Piec na papier: ${furnace.burning ? 'pali ' + furnace.burning : 'żar'}\n`
-      + `Sztabki odlane: ${casting.made} · przedmiotów: ${items.list.length}`;
+      + `Sztabki odlane: ${casting.made} duże, ${castingSmall.made} małe (rozdzielacz: ${flow.small ? 'małe' : 'duże'}) · przedmiotów: ${items.list.length}`
+      + (driving ? `\nPojazd: ładunek ${truck.payload.toFixed(0)} kg · ugięcie wysięgnika ${(truck.sagB * LAYOUT_T.boomLen * 100).toFixed(1)} cm, ramienia ${(truck.sagS * LAYOUT_T.stickLen * 100).toFixed(1)} cm` : '');
     view.update(items.list, camera.position);
     hit.update();
     renderer.render(scene, camera);
     input.endFrame();
   });
-  window.__game = { ready: true, sim: (sec) => { for (let i = 0; i < sec / STEP; i++) tick(null); truck.sync(); }, setDriving: (v) => { driving = v; player.active = !v; }, ph, items, player, truck, canCrusher, metalCrusher, induction, casting, flow, shop, camera, input, scene, renderer, hit };
+  window.__game = { ready: true, castingSmall, setDiverter, setCam: (m) => { camMode = m; }, sim: (sec) => { for (let i = 0; i < sec / STEP; i++) tick(null); truck.sync(); }, setDriving: (v) => { driving = v; player.active = !v; }, ph, items, player, truck, canCrusher, metalCrusher, induction, casting, flow, shop, camera, input, scene, renderer, hit };
 }
 main().catch((e) => { console.error(e); $('loadTxt').textContent = 'Błąd: ' + e.message; });

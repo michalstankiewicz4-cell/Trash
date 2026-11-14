@@ -15,7 +15,10 @@ def main():
             pg.on('pageerror', lambda e: errs.append('pageerror ' + str(e)))
             pg.on('console', lambda m: errs.append(m.type + ' ' + m.text) if m.type in ('error', 'warning') else None)
             pg.goto(f'http://localhost:{PORT}/index.html?test')
-            pg.wait_for_function('window.__game && window.__game.ready', timeout=600000)
+            for _ in range(600):
+                if pg.evaluate('!!(window.__game && window.__game.ready)'): break
+                if any(e.startswith('pageerror') or e.startswith('error') for e in errs): print('BŁĄD:', errs); b.close(); return
+                time.sleep(1)
             print('załadowano'); time.sleep(3)
             def shot(name, js=None, wait=1.5):
                 if js: pg.evaluate(js)

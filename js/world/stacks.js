@@ -1,5 +1,5 @@
-// Stosy na wysypisku: po 20 sztuk każdego rodzaju (ułożone jak na składowisku) i jeden stos mieszany — po 10 sztuk
-// z każdego rodzaju w losowej kolejności. Przed startem fizyka układa stosy (kilka sekund symulacji przy ładowaniu).
+// Stosy na wysypisku: po 20 sztuk każdego rodzaju (ułożone jak na składowisku) i jeden, największy stos mieszany —
+// po 20 sztuk z każdego rodzaju w losowej kolejności. Przed startem fizyka układa stosy (kilka sekund symulacji przy ładowaniu).
 import * as THREE from '../../vendor/three/three.module.js';
 import { STACK_KINDS, variantsOf } from '../items/catalog.js';
 
@@ -11,7 +11,7 @@ function rng(seed) { let s = seed; return () => { s = (s * 16807) % 2147483647; 
 // miejsca stosów (wokół platformy, na gruncie)
 export const STACK_SPOTS = {
   'tire-car': [-20, -14], 'tire-bike': [-21, 0], 'tire-tractor': [-22, 14], can: [20, -14], 'can-crushed': [21, 0],
-  pot: [20, 13], newspapers: [-6, -18], box: [6, -18], barrel: [16, 24], mixed: [-4, 23],
+  pot: [20, 13], newspapers: [-6, -18], box: [6, -18], barrel: [18, 25], mixed: [-3, 24],
 };
 
 /** Pozycje 20 sztuk danego rodzaju (stos uporządkowany wg kształtu). */
@@ -40,14 +40,14 @@ export function spawnStacks(items) {
     const [cx, cz] = STACK_SPOTS[kind];
     for (const [x, y, z, q] of layout(kind, r)) items.spawn(kind, (r() * variantsOf(kind)) | 0, [cx + x, y, cz + z], q);
   }
-  // stos mieszany: po 10 z każdego rodzaju w losowej kolejności — zwracany jako kolejka do zrzucania po jednym
+  // stos mieszany: po 20 z każdego rodzaju w losowej kolejności — zwracany jako kolejka do zrzucania po jednym
   // (main.js zrzuca je z wysokości przy ładowaniu, więc tworzą naturalną kupę zamiast wybuchać przy nakładaniu)
   const list = [];
-  for (const kind of STACK_KINDS) for (let i = 0; i < 10; i++) list.push(kind);
+  for (const kind of STACK_KINDS) for (let i = 0; i < 20; i++) list.push(kind);
   for (let i = list.length - 1; i > 0; i--) { const j = (r() * (i + 1)) | 0; [list[i], list[j]] = [list[j], list[i]]; }
   const [mx, mz] = STACK_SPOTS.mixed;
   return list.map((kind) => {
-    const a = r() * 6.283, d = Math.sqrt(r()) * 1.6;
-    return { kind, variant: (r() * variantsOf(kind)) | 0, pos: [mx + Math.cos(a) * d, 4.5, mz + Math.sin(a) * d], q: qRand(r) };
+    const a = r() * 6.283, d = Math.sqrt(r()) * 2.4;
+    return { kind, variant: (r() * variantsOf(kind)) | 0, pos: [mx + Math.cos(a) * d, 5.5, mz + Math.sin(a) * d], q: qRand(r) };
   });
 }

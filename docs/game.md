@@ -26,6 +26,10 @@
 - Piec indukcyjny grzeje tylko metal (aluminium topi się w 660 °C, stal w 1450 °C); lekkie szybciej. Zgniecione przedmioty zajmują mniej miejsca, więc do tygla wchodzi ich więcej.
 - Przechył: próg zależy od zapełnienia tygla; strumień metalu płynie rynną do dyszy nad formą. Pełna forma → przenośnik przesuwa formy, o ile następna jest pusta (metal w trakcie przesuwu spływa na przenośnik i przepada).
 - Sztabka: ≥ 90% aluminium → aluminium, ≥ 90% stali → stal, inaczej mieszanka; masa = metal w formie.
+- Rozdzielacz (dźwignia przy linii odlewniczej, E): duże formy (3,2 l) albo małe formy na aluminium (0,82 l, drugi przenośnik). Na czas przesuwu przenośnika pod aktywną dyszą metal czeka w dyszy.
+- Skup: sztabki wg składu (6,20 / 1,10 / 0,90 zł/kg), opony całe lub zgniecione 0,30 zł/kg.
+- Ugięcie wysięgnika: ładunek = przedmioty w zamkniętych szczękach, które nie leżą na niczym (promień w dół). Moment od ładunku × podatność (wysięgnik 2,6·10⁻⁷, ramię 3,5·10⁻⁷ rad/N·m) daje kąt ugięcia, do którego ramię dochodzi jak sprężyna z tłumieniem (1,6 Hz, ζ 0,12 — buja się przy podniesieniu i zrzucie); 1,5 t daje ok. 12 cm na końcu wysięgnika. Widoczne wygięcie w łuk (shader), ciała kinematyczne obracają się o kąt ugięcia. Ciężar chwytaka i ładunku działa na podwozie w punkcie zawieszenia — maszyna przechyla się.
+- Kamery w pojeździe (C): kabina (szyby przezroczyste), za pojazdem, chwytak; mysz obraca kamerę zewnętrzną.
 
 ## Wydajność (GPU)
 - Przedmioty: kilkadziesiąt wywołań rysowania niezależnie od liczby szczegółów (InstancedMesh), LOD 1 dalej niż 14 m.
