@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Złomowisko — podgląd modeli</title>
+<link rel="stylesheet" href="css/models.css">
+</head>
+<body>
+<aside id="list">
+  <header><a href="index.html">← Gra</a><h1>Modele</h1><span id="ver"></span></header>
+  <nav id="items"></nav>
+</aside>
+<main id="view"><canvas id="c"></canvas>
+  <div id="bar">
+    <label><input type="checkbox" id="lod1"> LOD 1 (daleko)</label>
+    <label><input type="checkbox" id="wire"> siatka</label>
+    <label><input type="checkbox" id="coll"> zderzacz</label>
+    <label><input type="checkbox" id="spin" checked> obrót</label>
+  </div>
+  <section id="info"></section>
+</main>
+<script type="module" src="js/ui/models-page.js"></script>
+</body>
+</html>
