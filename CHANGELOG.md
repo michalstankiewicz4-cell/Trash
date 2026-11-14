@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.1.4 — 2026-11-14
+- Model: puszka zgnieciona (v1.0.0) — puszka 0,33 l sprasowana do ~41 mm: fałdy w romby (4 płaty, przesunięte co fałdę), przekrzywione wieczko, zachowany nadruk; 3 warianty.
+
 ## 0.1.3 — 2026-11-14
 - Model: puszka aluminiowa 0,33 l (v1.0.0) — dno z kopułą, szyjka, zawijany szew, wieczko z nitem, języczkiem i otworem; 3 warianty nadruku (piwo, cola, woda).
 - Podgląd modeli: wybór wariantu.
