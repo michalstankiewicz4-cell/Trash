@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.2.2 — 2026-11-14
+- Model: zgniatarka do puszek (v1.0.0) — lej zasypowy, komora 1,6×1×1 m, poziomy tłok z siłownikiem Ø125, zasuwa wylotowa, zsyp do kosza z siatki, agregat hydrauliczny z przewodami, szafka z przyciskami START/STOP i grzybkiem, podest ze schodkami.
+
 ## 0.2.1 — 2026-11-14
 - Model: piec na papier i drewno (v1.0.0) — skrzynia stalowa z wykładziną szamotową, otwór wsadowy z otwartymi drzwiami i pochyłą tacą, ruszt z żarem, popielnik, komin 6 m z daszkiem, żaluzje, termometr, nity; strefa spalania i zderzacze.
 
