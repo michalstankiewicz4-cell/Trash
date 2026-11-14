@@ -1,5 +1,18 @@
 # Zmiany
 
+## 0.3.0 — 2026-11-14
+- Gra: widok z oczu, wysypisko ogrodzone (nie da się wyjść), platforma z maszynami, punkt skupu przy bramie, pojazd z chwytakiem.
+- Fizyka Rapier (WASM, stały krok 60 Hz): przedmioty z masą i hitboxami (opona = pierścień z płaskimi bokami), podnoszenie, rzut, popychanie.
+- Stosy: 9 rodzajów po 20 sztuk i stos mieszany po 10 sztuk z każdego rodzaju (układane fizyką przy ładowaniu).
+- Zgniatanie: opór w 3 osiach, utwardzanie, zgniatarka puszek (9 kN, wyrzut do kosza) i prasa 400 kN; cała puszka → zgnieciona.
+- Piec na papier: spalanie gazet i kartonów z ogniem i dymem.
+- Piec indukcyjny: topienie metalu (żarzenie na GPU), kąpiel ze składem, przechył, strumień ciekłego metalu rynną i dyszą do form, stygnięcie, sztabki (aluminium / stal / mieszanka).
+- Punkt skupu: waga z wyświetlaczem, sprzedaż sztabek.
+- Pojazd: jazda, obrót nadwozia, wysięgnik, ramię, chwytak z 4 szczękami chwytającymi fizycznie.
+- Przełącznik hitboxów (H lub w menu).
+- GPU: InstancedMesh na rodzaj, LOD, cząstki ognia i metalu na GPU.
+- Linia odlewnicza v1.0.1: dysza spustowa na końcu rynny.
+
 ## 0.2.8 — 2026-11-14
 - Model: przeładowarka z chwytakiem (v1.0.0) — podwozie z 4 kołami (opony przemysłowe 18-19.5 z generatora opon, felgi z nakrętkami), podpory, błotniki, wieniec obrotu, nadwozie z maską silnika, żaluzjami, przeciwwagą i wydechem, kabina z szybami na podwyższeniu, drabinka i poręcze, wysięgnik skrzynkowy z siłownikami, ramię, chwytak z rotatorem i 4 zakrzywionymi trójkątnymi szczękami z żebrami i siłownikami.
 

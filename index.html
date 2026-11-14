@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Złomowisko</title>
+<meta name="description" content="Złomowisko — gra w przeglądarce: zgniatarki, piec na papier, piec indukcyjny, odlewanie sztabek, punkt skupu, pojazd z chwytakiem. Fizyka Rapier, Three.js.">
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">
+  <div id="cross"></div>
+  <div id="money">0,00 zł</div>
+  <div id="info"><span id="ver"></span> · <span id="fps">–</span> kl/s</div>
+  <div id="prompt"></div>
+  <div id="msg"></div>
+  <div id="held"></div>
+  <div id="status"></div>
+</div>
+<div id="menu">
+  <div class="box">
+    <h1>ZŁOMOWISKO</h1>
+    <div id="load"><div id="loadBar"><i></i></div><span id="loadTxt">Ładowanie…</span></div>
+    <button id="play" disabled>Graj</button>
+    <label class="tog"><input type="checkbox" id="hitbox"> Pokaż hitboxy przedmiotów <kbd>H</kbd></label>
+    <div class="keys">
+      <h2>Pieszo</h2>
+      <p><kbd>WASD</kbd> ruch · <kbd>Shift</kbd> bieg · <kbd>Spacja</kbd> skok · <kbd>LPM</kbd> podnieś / odłóż · <kbd>PPM</kbd> rzuć · <kbd>kółko</kbd> odległość · <kbd>E</kbd> użyj (przyciski maszyn, pojazd, okienko skupu)</p>
+      <p>Przy piecu indukcyjnym: <kbd>E</kbd> zasilanie · <kbd>R</kbd> / <kbd>F</kbd> przechył tygla</p>
+      <h2>W pojeździe</h2>
+      <p><kbd>W</kbd>/<kbd>S</kbd> jazda · <kbd>A</kbd>/<kbd>D</kbd> skręt · <kbd>←</kbd>/<kbd>→</kbd> obrót · <kbd>↑</kbd>/<kbd>↓</kbd> wysięgnik · <kbd>R</kbd>/<kbd>F</kbd> ramię · <kbd>Spacja</kbd> chwytak · <kbd>E</kbd> wyjście</p>
+      <p><kbd>Esc</kbd> menu</p>
+    </div>
+    <a href="models.html">Podgląd modeli</a> · <span id="menuVer"></span>
+  </div>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+:root { --gold: #e0b44c; --txt: #ece6d6; --dim: #a39a88; --panel: rgba(20, 18, 14, 0.82); --line: #463f31; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #111; color: var(--txt); font: 15px/1.45 system-ui, 'Segoe UI', sans-serif; }
+#c { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+#hud { position: fixed; inset: 0; pointer-events: none; }
+#cross { position: absolute; left: 50%; top: 50%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: rgba(255, 255, 255, 0.85); box-shadow: 0 0 2px #000; }
+#money { position: absolute; left: 18px; top: 14px; font: 700 24px/1 'Segoe UI', sans-serif; color: var(--gold); text-shadow: 0 1px 3px #000; }
+#info { position: absolute; right: 14px; top: 12px; font: 12px monospace; color: var(--dim); text-shadow: 0 1px 2px #000; }
+#prompt { position: absolute; left: 50%; top: calc(50% + 34px); transform: translateX(-50%); padding: 4px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; white-space: nowrap; }
+#prompt:empty, #msg:empty, #held:empty, #status:empty { display: none; }
+#msg { position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%); padding: 6px 16px; background: var(--panel); border-left: 3px solid var(--gold); }
+#held { position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); color: var(--dim); font-size: 13px; }
+#status { position: absolute; left: 18px; bottom: 18px; padding: 8px 12px; background: var(--panel); border: 1px solid var(--line); font: 12px/1.6 monospace; white-space: pre; }
+#menu { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(10, 9, 7, 0.72); }
+#menu.off { display: none; }
+#menu .box { width: min(640px, 92vw); padding: 24px 30px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+#menu h1 { margin: 0 0 12px; color: var(--gold); letter-spacing: 0.18em; font-size: 30px; }
+#menu h2 { margin: 12px 0 2px; font-size: 13px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.1em; }
+#menu p { margin: 2px 0; color: var(--txt); font-size: 14px; }
+#menu a { color: var(--dim); }
+#menu button { margin: 12px 0; padding: 10px 34px; font: 700 18px sans-serif; color: #1a160e; background: var(--gold); border: 0; border-radius: 4px; cursor: pointer; }
+#menu button:disabled { opacity: 0.4; cursor: wait; }
+#load { display: flex; align-items: center; gap: 10px; color: var(--dim); font-size: 13px; }
+#loadBar { flex: 1; height: 6px; background: #2a251c; border-radius: 3px; overflow: hidden; }
+#loadBar i { display: block; height: 100%; width: 0; background: var(--gold); transition: width 0.2s; }
+.tog { display: block; margin: 4px 0 8px; cursor: pointer; }
+kbd { display: inline-block; padding: 0 5px; border: 1px solid #6a604c; border-radius: 3px; font: 12px monospace; background: #2a251c; }

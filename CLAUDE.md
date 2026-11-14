@@ -22,6 +22,12 @@
 - `docs/` — dokumentacja (mapa: `docs/README.md`).
 - Nazwy plików małymi literami, słowa myślnikiem.
 
+## Gra
+
+- Opis budowy i zasad fizyki: `docs/game.md`. Fizyka Rapier ze stałym krokiem (`tick` w `js/main.js`).
+- Przełącznik hitboxów (H / menu) musi działać dla wszystkich zderzaczy.
+- Test bez okna po zmianach gry: `python3 tools/game-test.py` i `python3 tools/game-mech.py` — bez błędów strony.
+
 ## Modele
 
 - Realistyczne, dużo szczegółów; wymiary i masy jak prawdziwe (podawać w `info`).
