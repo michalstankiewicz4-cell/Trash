@@ -1,5 +1,9 @@
 # Zmiany
 
+## 0.1.7 — 2026-11-14
+- Model: karton zamknięty 40×30×30 (v1.0.0) — wybrzuszone ścianki, wgnieciony róg, klapy ze szczeliną, taśma przez szczelinę na boki, zakładka klejona, nadruki (strzałki, szkło, recykling, pieczątka).
+- roundedBox: osobne wierzchołki ścian (UV czytelne z zewnątrz), normalne z zaokrąglenia — gazety v1.0.1, garnek v1.0.1.
+
 ## 0.1.6 — 2026-11-14
 - Model: gazety związane sznurkiem (v1.0.0) — 30 warstw przesuniętych i skręconych, krawędzie kartek z wkładkami, pierwsza strona na wierzchu, sznurek jutowy na krzyż z supłem i końcami.
 
