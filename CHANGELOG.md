@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.3.4 — 2026-11-14
+- Poprawka: przeskoki widoku przy obracaniu myszą (błąd Chrome z blokadą kursora) — surowy ruch myszy (unadjustedMovement) i odrzucanie fałszywych skoków.
+
 ## 0.3.3 — 2026-11-14
 - Punkt skupu v1.1.0: cennik z oponami (0,30 zł/kg).
 
