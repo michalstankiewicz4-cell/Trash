@@ -1,5 +1,9 @@
 # Zmiany
 
+## 0.2.7 — 2026-11-14
+- Model: punkt skupu (v1.0.0) — kontener biurowy z przetłoczeniami, okienko kasowe z ladą, drzwi, klimatyzator, tablica SKUP ZŁOMU, cennik, waga platformowa z wyświetlaczem.
+- Ogrodzenie v1.0.1: tablica z UV na całą ścianę.
+
 ## 0.2.6 — 2026-11-14
 - Model: ogrodzenie (v1.0.0) — plac 80×80 m, siatka plecionka 2,4 m (tekstura z kanałem alfa), słupki co 3,5 m, rura górna, 3 druty kolczaste na wysięgnikach, zamknięta brama dwuskrzydłowa z zamkiem i tablicą; zderzacze 4 m.
 
