@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.1.8 — 2026-11-14
+- Model: beczka stalowa 200 l (v1.0.0) — 2 obręcze toczne, zwijane rąbki, wpuszczone wieko i dno z pierścieniami, korki 2" i 3/4" z żeberkami, 2 wgniecenia, zużyta farba z rdzą na rąbkach i obręczach, oznakowanie UN; 3 warianty farby.
+
 ## 0.1.7 — 2026-11-14
 - Model: karton zamknięty 40×30×30 (v1.0.0) — wybrzuszone ścianki, wgnieciony róg, klapy ze szczeliną, taśma przez szczelinę na boki, zakładka klejona, nadruki (strzałki, szkło, recykling, pieczątka).
 - roundedBox: osobne wierzchołki ścian (UV czytelne z zewnątrz), normalne z zaokrąglenia — gazety v1.0.1, garnek v1.0.1.
