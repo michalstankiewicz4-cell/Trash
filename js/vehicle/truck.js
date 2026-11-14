@@ -25,13 +25,14 @@ export class Truck {
     this.body = W.createRigidBody(R.RigidBodyDesc.dynamic().setTranslation(...pos).setRotation(q).setLinearDamping(0.1).setAngularDamping(0.6).setCanSleep(false));
     const c = LAYOUT.chassis;
     W.createCollider(R.ColliderDesc.cuboid(...c.half).setTranslation(...c.at).setMass(12000).setFriction(0.5).setCollisionGroups(groups(G.VEHICLE, G.WORLD | G.ITEM | G.PLAYER | G.HELD)), this.body);
-    W.createCollider(R.ColliderDesc.cuboid(1.2, 0.5, 1.6).setTranslation(0, 2.1, -0.8).setMass(6000).setCollisionGroups(groups(G.VEHICLE, G.WORLD | G.ITEM | G.PLAYER)), this.body);
+    W.createCollider(R.ColliderDesc.cuboid(1.2, 0.5, 1.6).setTranslation(0, 2.1, 0).setMass(2000).setCollisionGroups(groups(G.VEHICLE, G.WORLD | G.ITEM | G.PLAYER)), this.body);
+    // przeciwwaga (4 t) obraca się z nadwoziem: jej ciężar przykładany w jej miejscu (deflect)
     this.vc = W.createVehicleController(this.body);
     this.vc.indexUpAxis = 1; this.vc.setIndexForwardAxis = 2;
     const rest = 0.32;
     LAYOUT.wheels.forEach(([x, y, z], i) => {
       this.vc.addWheel({ x, y: y + rest, z }, { x: 0, y: -1, z: 0 }, { x: -1, y: 0, z: 0 }, rest, LAYOUT.wheelRadius);
-      this.vc.setWheelSuspensionStiffness(i, 60); this.vc.setWheelMaxSuspensionForce(i, 200000); this.vc.setWheelFrictionSlip(i, 2.2);
+      this.vc.setWheelSuspensionStiffness(i, 60); this.vc.setWheelMaxSuspensionForce(i, 110000);   // ~2,5× ciężaru na koło this.vc.setWheelFrictionSlip(i, 2.2);
       this.vc.setWheelSuspensionCompression(i, 4.4); this.vc.setWheelSuspensionRelaxation(i, 2.3); this.vc.setWheelSideFrictionStiffness(i, 1.2);
     });
     this.rest = rest;
@@ -126,8 +127,10 @@ export class Truck {
     this.vB += (w * w * (tb - this.sagB) - 2 * z * w * this.vB) * dt; this.sagB += this.vB * dt;
     this.vS += (w * w * (ts - this.sagS) - 2 * z * w * this.vS) * dt; this.sagS += this.vS * dt;
     // ciężar chwytaka (~700 kg) i ładunku na podwoziu — w punkcie zawieszenia chwytaka
-    this.body.resetForces(true);
-    this.body.addForceAtPoint({ x: 0, y: -(700 + this.payload) * g, z: 0 }, tip, true);
+    // jako impuls na krok (jednorazowy) — siła stała dodawana co krok kumulowała się w Rapier i wyrzucała pojazd
+    if (Number.isFinite(tip.x)) this.body.applyImpulseAtPoint({ x: 0, y: -(700 + this.payload) * g * dt, z: 0 }, tip, true);
+    const cw = new THREE.Vector3(0, 0.55, -2.55).applyMatrix4(this.upperG.matrixWorld);
+    if (Number.isFinite(cw.x)) this.body.applyImpulseAtPoint({ x: 0, y: -4000 * g * dt, z: 0 }, cw, true);
   }
   /** Przedmioty w szczękach: dotykają szczęki lub głowicy i nie leżą na niczym poniżej (promień w dół). */
   measure() {

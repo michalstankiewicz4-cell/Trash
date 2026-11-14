@@ -56,12 +56,16 @@ async function main() {
   truck.items = items;
   applyTextures();
   // stosy układają się: zrzucanie stosu mieszanego po jednym i kilka sekund symulacji przed startem
+  // pojazd liczy się też przy ładowaniu (zawieszenie trzyma podwozie — bez tego zapadłoby się w grunt i wystrzeliło po starcie)
+  const idle = { key: () => false, pressed: () => false, click: [false, false, false] };
+  const preStep = () => { truck.step(STEP, idle, false); ph.step(); };
   for (let i = 0; i < mixed.length; i++) {
     const m = mixed[i]; items.spawn(m.kind, m.variant, m.pos, m.q);
-    for (let k = 0; k < 6; k++) ph.step();
+    for (let k = 0; k < 6; k++) preStep();
     if (i % 15 === 0) await progress(0.55 + 0.4 * i / mixed.length, `Układanie stosów… ${i}/${mixed.length}`);
   }
-  for (let k = 0; k < 180; k++) ph.step();
+  for (let k = 0; k < 180; k++) preStep();
+  truck.sync();
   await progress(1, 'Gotowe');
 
   const input = new Input($('c'));

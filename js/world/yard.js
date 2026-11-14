@@ -19,7 +19,7 @@ export const PLACES = {
   metalCrusher: { pos: [6.4, T, -4.6], rotY: 0 },
   induction: { pos: [-7.5, T, 2.4], rotY: 0 },
   buyback: { pos: [-12, 0, 33], rotY: 0 },
-  truck: { pos: [9, 0.05, 17], rotY: Math.PI },
+  truck: { pos: [11, 0.05, 19], rotY: 0 },   // przodem do wolnego placu przy bramie (rampa na platformę: x = 0)
   player: [2, 1.2, 31],
 };
 PLACES.casting = { pos: [PLACES.induction.pos[0], T, PLACES.induction.pos[2] + 0.62], rotY: 0 };

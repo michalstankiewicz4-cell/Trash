@@ -1,5 +1,10 @@
 # Zmiany
 
+## 0.4.1 — 2026-11-14
+- Poprawka: pojazd wylatywał w powietrze i kręcił się po starcie — podczas ładowania fizyka liczyła się bez zawieszenia (podwozie zapadało się w grunt), a stała siła ciężaru chwytaka kumulowała się w Rapier. Teraz pojazd liczy się także przy ładowaniu, ciężar chwytaka, ładunku i przeciwwagi działa jako impuls na krok, limit siły zawieszenia 110 kN na koło.
+- Przeciwwaga (4 t) obraca się z nadwoziem — pojazd stoi stabilnie z ładunkiem do 2 t z przodu i 1,5 t z boku.
+- Pojazd ustawiony przodem do wolnego placu przy bramie.
+
 ## 0.4.0 — 2026-11-14
 - Małe formy na aluminium: drugi przenośnik z 10 formami, rozdzielacz przełączany dźwignią (E), metal czeka w dyszy podczas przesuwu przenośnika (mniej strat); wolniejszy wylew.
 - Skup opon: 0,30 zł/kg (całe lub zgniecione), sprzedaż razem ze sztabkami.
