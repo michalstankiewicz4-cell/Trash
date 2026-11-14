@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.2.4 — 2026-11-14
+- Model: piec indukcyjny z cewką (v1.0.0) — przechylny tygiel z wymurówką (~365 l), odsłonięta cewka miedziana 11 zwojów w klatce, wylew, czopy na stojakach z łożyskami, siłownik przechyłu, szafa zasilania z miernikami, szyny prądowe, węże chłodzenia, pulpit, podest ze schodami.
+
 ## 0.2.3 — 2026-11-14
 - Model: zgniatarka do metalu — prasa pionowa 400 kN (v1.0.0): komora 3×1,4×2 m z żebrami i podnoszoną bramą, 4 kolumny, poprzecznica, 2 siłowniki Ø300 na poprzecznicy (skok 3,5 m), płyta dociskowa z żebrami i pasami, agregat z chłodnicą, przewody, pulpit, podest ze schodami.
 
