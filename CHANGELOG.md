@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.2.8 — 2026-11-14
+- Model: przeładowarka z chwytakiem (v1.0.0) — podwozie z 4 kołami (opony przemysłowe 18-19.5 z generatora opon, felgi z nakrętkami), podpory, błotniki, wieniec obrotu, nadwozie z maską silnika, żaluzjami, przeciwwagą i wydechem, kabina z szybami na podwyższeniu, drabinka i poręcze, wysięgnik skrzynkowy z siłownikami, ramię, chwytak z rotatorem i 4 zakrzywionymi trójkątnymi szczękami z żebrami i siłownikami.
+
 ## 0.2.7 — 2026-11-14
 - Model: punkt skupu (v1.0.0) — kontener biurowy z przetłoczeniami, okienko kasowe z ladą, drzwi, klimatyzator, tablica SKUP ZŁOMU, cennik, waga platformowa z wyświetlaczem.
 - Ogrodzenie v1.0.1: tablica z UV na całą ścianę.
