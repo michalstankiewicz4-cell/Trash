@@ -1,5 +1,9 @@
 # Zmiany
 
+## 0.2.0 — 2026-11-14
+- Model: platforma (v1.0.0) — podest 26×18 m z płytami 2×2 m (każda osiadła inaczej), krawężnik i pas w pasy ostrzegawcze, rampa z blachy ryflowanej, 4 maszty kratowe 9 m z naświetlaczami; zderzacze statyczne.
+- Materiały PBR z MatKit (GameLaboratory, kopia w js/render/matkit.js): beton, blachy, farby, grunt; UV w metrach (uvMeters).
+
 ## 0.1.8 — 2026-11-14
 - Model: beczka stalowa 200 l (v1.0.0) — 2 obręcze toczne, zwijane rąbki, wpuszczone wieko i dno z pierścieniami, korki 2" i 3/4" z żeberkami, 2 wgniecenia, zużyta farba z rdzą na rąbkach i obręczach, oznakowanie UN; 3 warianty farby.
 
