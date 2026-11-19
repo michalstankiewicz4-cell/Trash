@@ -1,5 +1,8 @@
 # Zmiany
 
+## 0.4.2 — 2026-11-19
+- Zgniatarka do puszek v1.0.1: ścianka kosza od strony zgniatarki niższa (0,38 m) — zsyp przechodził przez nią i wypchnięte puszki zatrzymywały się na ściance; teraz zsyp jest nad nią i puszki zsuwają się do kosza (znalazł to test „pierce” doktora modeli GameLaboratory).
+
 ## 0.4.1 — 2026-11-14
 - Poprawka: pojazd wylatywał w powietrze i kręcił się po starcie — podczas ładowania fizyka liczyła się bez zawieszenia (podwozie zapadało się w grunt), a stała siła ciężaru chwytaka kumulowała się w Rapier. Teraz pojazd liczy się także przy ładowaniu, ciężar chwytaka, ładunku i przeciwwagi działa jako impuls na krok, limit siły zawieszenia 110 kN na koło.
 - Przeciwwaga (4 t) obraca się z nadwoziem — pojazd stoi stabilnie z ładunkiem do 2 t z przodu i 1,5 t z boku.
